@@ -1,0 +1,10 @@
+services:
+  app:
+    image: nginx:latest
+    ports:
+    - "8080:80"
+    volumes:
+    - type: bind
+      source: ./docs
+      target: /usr/share/nginx/html/bells146
+      read_only: true

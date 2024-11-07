@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru-ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Василий Поляков">
+  <title>Расписание звонков 146</title>
+  <link rel="icon" type="image/png" href="/bells146/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/bells146/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/bells146/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/bells146/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Звонки 146" />
+  <link rel="manifest" href="/bells146/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="/bells146/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bells146/css/style.css">
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center">
+    <noscript><p>Включите JavaScript!</p></noscript>
+    <div id="timetable">
+      <table class="table table-bordered table-hover align-middle">
+        <tbody>
+          <tr><td>Сегодня</td><td id="today" colspan="2"></td></tr>
+          <tr><td>Сейчас</td><td id="now"></td><td id="period"></td></tr>
+          <tr><td>Осталось</td><td id="time_left"></td><td></td></tr>
+          <tr><td id="next_label">Далее</td><td id="next_start"></td><td id="next_period"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastDiv" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="/bells146/img/bell.svg" class="rounded me-2" width="16" alt="Звонок">
+        <strong class="me-auto">Звонок</strong>
+        <small id="toastTime"></small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">Сейчас: <span id="toastMsg"></span></div>
+    </div>
+  </div>
+  <script src="/bells146/js/bootstrap.bundle.min.js"></script>
+  <script src="/bells146/js/timetable.js"></script>
+</body>
+</html>

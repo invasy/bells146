@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run test server",
+      "group": {"kind": "test"},
+      "icon": {
+        "id": "server",
+        "color": "terminal.ansiCyan"
+      },
+      "type": "shell",
+      "command": "docker compose up -d",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
