@@ -1,0 +1,23 @@
+html, body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: large;
+}
+
+html, body, .container {
+  width: 100%;
+  height: 100%;
+}
+
+#message {
+  color: red;
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+#timetable {
+  display: none;
+}
+
+#timetable table td:nth-child(2) {
+  font-weight: bold;
+}

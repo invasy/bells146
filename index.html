@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru-ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Vasiliy Polyakov">
+  <title>Расписание звонков ФМШ 146</title>
+  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+  <link rel="shortcut icon" href="favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Bell146" />
+  <link rel="manifest" href="favicon/site.webmanifest" />
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center">
+    <div id="banner">
+      <noscript><span>Включите JavaScript!</span></noscript>
+      <span id="message"></span>
+    </div>
+    <div id="timetable">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr><td>Сегодня</td><td id="today" colspan="2"></td></tr>
+          <tr><td>Сейчас</td><td id="now"></td><td id="period"></td></tr>
+          <tr><td>Осталось</td><td id="time_left"></td><td></td></tr>
+          <tr><td>Далее</td><td id="next_start"></td><td id="next_period"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/timetable.js"></script>
+</body>
+</html>
