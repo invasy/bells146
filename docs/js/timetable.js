@@ -134,7 +134,7 @@ class WeekTimetable {
 
   constructor(config) {
     const lesson = config["урок"] || 45;
-    const week = config["расписание"];
+    const week = config["звонки"];
     for (const day in week) {
       const breaks = week[day]["перемены"];
       const d = new DayTimetable();
@@ -165,6 +165,10 @@ Date.prototype.toDateString = function() {
   });
 }
 
+Date.prototype.getWeekDay = function() {
+  return this.toLocaleDateString(LOCALE, {weekday: "long"});
+}
+
 function hint(msg) {
   return `<span class="hint">${msg}</span>`;
 }
@@ -181,6 +185,18 @@ async function showTimetable(){
   const config = await response.json();
   const timetable = new WeekTimetable(config);
 
+  const teachers = config["расписание"];
+  const teachersSelect = document.getElementById("teachers");
+  for (const [i, name] of Object.keys(teachers).entries()) {
+    teachersSelect.options[i] = new Option(name, name);
+  }
+  let teacher = localStorage.getItem("i146/bells/teacher");
+  if (teacher) {
+    teachersSelect.value = teacher;
+  } else {
+    teacher = teachersSelect.value;
+  }
+
   const toastOptions = {delay: config["звонок"] || 5000};
   const toastDiv = document.getElementById("toastDiv");
   const toastTime = document.getElementById("toastTime");
@@ -195,14 +211,27 @@ async function showTimetable(){
   function showNow() {
     const now = new Date();
     const day = now.getDay();
+    const weekday = now.getWeekDay();
     const time = Time.fromDate(now);
     const today = timetable[day];
     cell.today.innerText = now.toDateString();
     cell.now.innerText = time;
+
+    function formatPeriod(period) {
+      if (period instanceof Lesson) {
+        const lesson = teachers[teacher]?.[weekday]?.[period.index];
+        return lesson
+          ? `${period.index}) ${lesson["предмет"]} &mdash; ${lesson["класс"]}`
+          : `${period.index}) ${hint("урока нет")}`;
+      } else {
+        return period.toString();
+      }
+    }
+
     if (!today?.length) {
       cell.period.innerHTML = hint("уроков нет");
       const next = timetable[(day + 1) % 7]?.[0];
-      cell.time_left.innerHTML = next?.start.add(24, 0).sub(time) || "&mdash;:&mdash;";
+      cell.time_left.innerHTML = next?.start.add(24, 0).sub(time) || "&nbsp;";
       cell.next_label.innerHTML = "Завтра";
       cell.next_start.innerHTML = next?.start || "&nbsp;";
       cell.next_period.innerHTML = next || hint("уроков нет");
@@ -216,22 +245,28 @@ async function showTimetable(){
     } else if (time.value >= today.end.value) {
       cell.period.innerHTML = hint("уроки закончились");
       const next = timetable[(day + 1) % 7]?.[0];
-      cell.time_left.innerHTML = next?.start.add(24, 0).sub(time) || "&mdash;:&mdash;";
+      cell.time_left.innerHTML = next?.start.add(24, 0).sub(time) || "&nbsp;";
       cell.next_label.innerHTML = "Завтра";
       cell.next_start.innerHTML = next?.start || "&nbsp;";
       cell.next_period.innerHTML = next || hint("уроков нет");
     } else {
       const [period, next] = today.at(time);
-      cell.period.innerHTML = period;
+      cell.period.innerHTML = formatPeriod(period);
       cell.time_left.innerHTML = period.end.sub(time);
       cell.next_label.innerHTML = "Далее";
       cell.next_start.innerHTML = next?.start || period.end;
-      cell.next_period.innerHTML = next || hint("конец уроков");
+      cell.next_period.innerHTML = next ? formatPeriod(next) : hint("конец уроков");
       if (now.toLocaleTimeString(LOCALE) === period.start.toTimeString()) {
         showToast(time, period);
       }
     }
   }
+
+  teachersSelect.addEventListener("change", function(event) {
+    teacher = event.target.value;
+    localStorage.setItem("i146/bells/teacher", teacher);
+    showNow();
+  });
 
   document.getElementById("timetable").style.display = "flex";
   setInterval(showNow, 1000);
